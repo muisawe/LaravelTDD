@@ -19,5 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('projects', [ProjectsController::class, 'store']);
-Route::get('projects', [ProjectsController::class, 'index']);
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::post('/projects', [ProjectsController::class, 'store'])->name('projects.store');
+    Route::get('projects', [ProjectsController::class, 'index']);
+    Route::get('projects/create', [ProjectsController::class, 'create']);
+    Route::get('projects/{project}', [ProjectsController::class, 'show']);
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
